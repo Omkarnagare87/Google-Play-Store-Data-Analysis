@@ -1,0 +1,9 @@
+Import Libraries: We'll use pandas for data manipulation and matplotlib & seaborn for visualization.
+
+Load Dataset: We'll assume you have a dataset googleplaystore.csv with relevant data.
+
+Data Preprocessing: Clean and prepare the data for analysis (removing missing or incorrect values).
+
+Exploratory Data Analysis (EDA): Understand app categories, ratings, and other key metrics.
+
+Visualization: Visualize data insights.
