@@ -1,0 +1,16 @@
+ of Key Sections
+
+1.Data Cleaning:
+Removes rows with missing or invalid values.
+Converts columns like Reviews, Price, and Rating to appropriate numeric formats.
+
+2.Exploratory Data Analysis:
+Category Distribution: Bar plot showing the number of apps per category.
+Rating Distribution: Histogram to visualize the distribution of ratings across all apps.
+Reviews vs Rating: Scatter plot to explore how reviews correlate with ratings.
+Price Distribution: Visualize the distribution of app prices (after cleaning).
+Top Apps by Reviews: List of top apps based on the number of reviews.
+Top Rated Apps: List of top-rated apps.
+
+3.Insights:
+Top Categories by Average Rating: Displays categories with the highest average ratings.
