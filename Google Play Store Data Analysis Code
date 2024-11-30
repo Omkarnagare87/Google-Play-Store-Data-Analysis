@@ -1,0 +1,95 @@
+# Step 1: Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 2: Load the dataset
+df = pd.read_csv('googleplaystore.csv')
+
+# Step 3: Data Cleaning
+# Remove rows with missing or invalid values
+df.dropna(subset=['Category', 'Rating', 'Reviews'], inplace=True)
+
+# Remove rows with '3.0' in 'Reviews' as they are inconsistent
+df = df[df['Reviews'] != '3.0']
+
+# Convert 'Reviews' and 'Price' columns to numeric
+df['Reviews'] = pd.to_numeric(df['Reviews'], errors='coerce')
+df['Price'] = df['Price'].replace('[$,]', '', regex=True).astype(float)
+
+# Convert 'Rating' to numeric and handle missing values
+df['Rating'] = pd.to_numeric(df['Rating'], errors='coerce')
+df['Rating'].fillna(df['Rating'].mean(), inplace=True)  # Fill NaN ratings with the mean
+
+# Step 4: Exploratory Data Analysis (EDA)
+# 4.1: Distribution of Apps by Category
+plt.figure(figsize=(10,6))
+category_counts = df['Category'].value_counts()
+sns.barplot(x=category_counts.index, y=category_counts.values)
+plt.title('Number of Apps per Category')
+plt.xticks(rotation=90)
+plt.xlabel('Category')
+plt.ylabel('Number of Apps')
+plt.show()
+
+# 4.2: Rating Distribution
+plt.figure(figsize=(10,6))
+sns.histplot(df['Rating'], kde=True, color='blue', bins=20)
+plt.title('Rating Distribution')
+plt.xlabel('Rating')
+plt.ylabel('Frequency')
+plt.show()
+
+# 4.3: Correlation between Reviews and Rating
+plt.figure(figsize=(10,6))
+sns.scatterplot(x='Reviews', y='Rating', data=df, alpha=0.6, color='green')
+plt.title('Reviews vs Rating')
+plt.xlabel('Reviews')
+plt.ylabel('Rating')
+plt.show()
+
+# 4.4: Distribution of Apps by Price
+plt.figure(figsize=(10,6))
+sns.histplot(df['Price'], kde=True, color='red', bins=30)
+plt.title('Price Distribution of Apps')
+plt.xlabel('Price')
+plt.ylabel('Frequency')
+plt.show()
+
+# 4.5: Most Popular Apps (by Reviews)
+top_apps = df[['App', 'Reviews']].sort_values(by='Reviews', ascending=False).head(10)
+plt.figure(figsize=(10,6))
+sns.barplot(x='Reviews', y='App', data=top_apps, palette='viridis')
+plt.title('Top 10 Most Reviewed Apps')
+plt.xlabel('Reviews')
+plt.ylabel('App')
+plt.show()
+
+# 4.6: Apps with Maximum Rating
+top_rated_apps = df[['App', 'Rating']].sort_values(by='Rating', ascending=False).head(10)
+plt.figure(figsize=(10,6))
+sns.barplot(x='Rating', y='App', data=top_rated_apps, palette='plasma')
+plt.title('Top 10 Highest Rated Apps')
+plt.xlabel('Rating')
+plt.ylabel('App')
+plt.show()
+
+# Step 5: Insights
+# 5.1: Top Categories by Average Rating
+category_avg_rating = df.groupby('Category')['Rating'].mean().sort_values(ascending=False).head(10)
+plt.figure(figsize=(10,6))
+sns.barplot(x=category_avg_rating.values, y=category_avg_rating.index)
+plt.title('Top 10 Categories by Average Rating')
+plt.xlabel('Average Rating')
+plt.ylabel('Category')
+plt.show()
+
+# 5.2: Number of Apps per Category
+category_counts = df['Category'].value_counts()
+plt.figure(figsize=(10,6))
+sns.barplot(x=category_counts.index, y=category_counts.values, palette='coolwarm')
+plt.title('Number of Apps in Each Category')
+plt.xticks(rotation=90)
+plt.xlabel('Category')
+plt.ylabel('Number of Apps')
+plt.show()
